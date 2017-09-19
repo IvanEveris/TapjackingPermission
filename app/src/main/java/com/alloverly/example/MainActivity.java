@@ -1,6 +1,7 @@
 package com.alloverly.example;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -17,12 +18,15 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CONTACT = 123;
     private static final int PICK_CONTACT = 124;
+    private ComponentName componentName;
+    private Intent svc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Intent svc = new Intent(this, OverlayShowingService.class);
+        svc = new Intent(this, OverlayShowingService.class);
 
 
         Button button = (Button) findViewById(R.id.button);
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startService(svc);
+                componentName = startService(svc);
                 askForContactPermission();
             }
         });
@@ -50,32 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.READ_CONTACTS)) {
 
-
                     requestPermissions(
                             new String[]
                                     {Manifest.permission.READ_CONTACTS}
                             , PERMISSION_REQUEST_CONTACT);
-
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                    builder.setTitle("Contacts access needed");
-//                    builder.setPositiveButton(android.R.string.ok, null);
-//                    builder.setMessage("please confirm Contacts access");
-//                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                        @TargetApi(Build.VERSION_CODES.M)
-//                        @Override
-//                        public void onDismiss(DialogInterface dialog) {
-//                            requestPermissions(
-//                                    new String[]
-//                                            {Manifest.permission.READ_CONTACTS}
-//                                    , PERMISSION_REQUEST_CONTACT);
-//                        }
-//                    });
-//                    AlertDialog alertDialog = builder.show();
-//                    Log.d("TAGTAG","Size x " + alertDialog.getWindow().getAttributes().x);
-//                    Log.d("TAGTAG","Size y " + alertDialog.getWindow().getAttributes().y);
-                    // Show an expanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
 
                 } else {
 
@@ -111,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
                     Log.d("TAGTAG", "No permission for contacts");
-//                    Toast.makeText(getApplicationContext(),"No permission for contacts",Toast.LENGTH_LONG).show();
-                    // permission denied, boo! Disable the
+                    // permission denied, Disable the
                     // functionality that depends on this permission.
                 }
                 return;
@@ -123,4 +104,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopService(svc);
+    }
 }

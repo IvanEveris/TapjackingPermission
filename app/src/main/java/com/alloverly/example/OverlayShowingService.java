@@ -48,10 +48,10 @@ public class OverlayShowingService extends Service implements View.OnClickListen
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                // acciones que se ejecutan tras los milisegundos
+
                 wm.addView(overlayedButton, params);
             }
-        }, 7000);
+        }, 4000);
 
         wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
@@ -104,7 +104,6 @@ public class OverlayShowingService extends Service implements View.OnClickListen
         super.onDestroy();
         if (overlayedButton != null) {
             wm.removeView(overlayedButton);
-            wm.removeView(topLeftView);
             overlayedButton = null;
             topLeftView = null;
         }
