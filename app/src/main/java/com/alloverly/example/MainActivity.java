@@ -1,21 +1,17 @@
 package com.alloverly.example;
 
 import android.Manifest;
-import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,10 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent svc = new Intent(this, OverlayShowingService.class);
-        startService(svc);
-//        finish();
-
+        final Intent svc = new Intent(this, OverlayShowingService.class);
 
 
         Button button = (Button) findViewById(R.id.button);
@@ -37,18 +30,19 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startService(svc);
                 askForContactPermission();
             }
         });
 
     }
 
-    private void getContact(){
+    private void getContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, PICK_CONTACT);
     }
 
-    public void askForContactPermission(){
+    public void askForContactPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 
@@ -95,11 +89,10 @@ public class MainActivity extends AppCompatActivity {
                     // app-defined int constant. The callback method gets the
                     // result of the request.
                 }
-            }else{
+            } else {
                 getContact();
             }
-        }
-        else{
+        } else {
             getContact();
         }
     }
@@ -117,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     // contacts-related task you need to do.
 
                 } else {
-                    Log.d("TAGTAG","No permission for contacts");
+                    Log.d("TAGTAG", "No permission for contacts");
 //                    Toast.makeText(getApplicationContext(),"No permission for contacts",Toast.LENGTH_LONG).show();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
