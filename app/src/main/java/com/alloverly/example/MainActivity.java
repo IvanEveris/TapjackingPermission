@@ -19,11 +19,11 @@ import android.widget.Button;
  * Created by ipicomar on 18/09/2017.
  * ref: https://gist.github.com/bjoernQ/6975256
  *
- * For versions >= 6.0 when runtime permission is allow.
+ * For versions >= 6.0 where runtime permission is allowed.
  * Cloak demostration.
  * Toast message is hiding read contacts permission with other message.
  *
- *
+ * Click message to hide the toast.
  *
  *
  */

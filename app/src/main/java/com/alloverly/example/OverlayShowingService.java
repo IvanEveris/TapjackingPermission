@@ -35,13 +35,6 @@ public class OverlayShowingService extends Service implements View.OnClickListen
     public void onCreate() {
         super.onCreate();
 
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//
-//            }
-//        }, 4000);
-
         wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
         Point start = new Point();
@@ -112,8 +105,7 @@ public class OverlayShowingService extends Service implements View.OnClickListen
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    @Override
     public void onClick(View v) {
-        Log.d("TAGTAG","");
+        wm.removeView(overlayedButton);
     }
 }
