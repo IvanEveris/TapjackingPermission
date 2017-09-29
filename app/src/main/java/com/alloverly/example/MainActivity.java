@@ -13,16 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 
 /**
  * Created by ipicomar on 18/09/2017.
  * ref: https://gist.github.com/bjoernQ/6975256
- * <p>
+ *
  * For versions >= 6.0 when runtime permission is allow.
  * Cloak demostration.
  * Toast message is hiding read contacts permission with other message.
+ *
+ * Click message to hide the toast.
+ *
+ *
  */
 
 public class MainActivity extends AppCompatActivity {

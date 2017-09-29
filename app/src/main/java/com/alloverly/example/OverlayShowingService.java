@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.compat.*;
-import android.support.compat.BuildConfig;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,7 +18,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class OverlayShowingService extends Service  {
+public class OverlayShowingService extends Service implements View.OnClickListener {
 
     private View topLeftView;
 
@@ -55,7 +52,8 @@ public class OverlayShowingService extends Service  {
         overlayedButton.setText("Allow this application to access Internet?");
         overlayedButton.setAlpha(0.85f);
         overlayedButton.setTextColor(Color.DKGRAY);
-        overlayedButton.setBackgroundColor(Color.WHITE);
+        overlayedButton.setBackgroundColor(Color.WHITE);;
+        overlayedButton.setOnClickListener(this);
 
         overlayedButton.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         overlayedButton.setPadding(40, 0, 0, 0);
@@ -117,4 +115,7 @@ public class OverlayShowingService extends Service  {
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    public void onClick(View v) {
+        wm.removeView(overlayedButton);
+    }
 }
