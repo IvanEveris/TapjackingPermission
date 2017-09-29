@@ -13,19 +13,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
  * Created by ipicomar on 18/09/2017.
  * ref: https://gist.github.com/bjoernQ/6975256
- *
+ * <p>
  * For versions >= 6.0 when runtime permission is allow.
  * Cloak demostration.
  * Toast message is hiding read contacts permission with other message.
- *
- *
- *
- *
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -48,8 +45,16 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                componentName = startService(svc);
-                askForContactPermission();
+
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+
+                    Toast.makeText(getApplicationContext(),
+                            "Just it works with Android Mashmallow and above", Toast.LENGTH_LONG).show();
+
+                else {
+                    componentName = startService(svc);
+                    askForContactPermission();
+                }
             }
         });
 

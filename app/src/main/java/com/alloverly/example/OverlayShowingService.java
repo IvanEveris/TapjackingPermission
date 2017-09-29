@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.compat.*;
+import android.support.compat.BuildConfig;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,7 +21,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class OverlayShowingService extends Service implements View.OnClickListener {
+public class OverlayShowingService extends Service  {
 
     private View topLeftView;
 
@@ -50,13 +53,12 @@ public class OverlayShowingService extends Service implements View.OnClickListen
 
         overlayedButton = new Button(this);
         overlayedButton.setText("Allow this application to access Internet?");
-        overlayedButton.setAlpha(1.00f);
+        overlayedButton.setAlpha(0.85f);
         overlayedButton.setTextColor(Color.DKGRAY);
         overlayedButton.setBackgroundColor(Color.WHITE);
-        overlayedButton.setOnClickListener(this);
 
         overlayedButton.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-        overlayedButton.setPadding(40,0,0,0);
+        overlayedButton.setPadding(40, 0, 0, 0);
 
 
         params = new WindowManager.
@@ -72,7 +74,10 @@ public class OverlayShowingService extends Service implements View.OnClickListen
         params.y = start.y;
         params.height = 240;
         params.width = 800;
-        wm.addView(overlayedButton, params);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+
+            wm.addView(overlayedButton, params);
 
     }
 
@@ -112,8 +117,4 @@ public class OverlayShowingService extends Service implements View.OnClickListen
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    @Override
-    public void onClick(View v) {
-        Log.d("TAGTAG","");
-    }
 }
